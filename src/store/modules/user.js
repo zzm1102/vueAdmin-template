@@ -1,5 +1,7 @@
-import { login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { login, logout } from '@/api/login'
+import { getToken, setUser, getUser, removeUser } from '@/utils/auth'
+// import { resolve } from 'path'
+// import { error } from 'util'
 
 const user = {
   state: {
@@ -29,11 +31,13 @@ const user = {
     Login({ commit }, userInfo) {
       const email = userInfo.email.trim()
       return new Promise((resolve, reject) => {
-        console.log(email)
         login(email, userInfo.password).then(response => {
-          const data = response.data
-          setToken(data.token)
-          commit('SET_TOKEN', data.token)
+          const data = response.result
+          setUser(data)
+          // commit('SET_TOKEN', data.token)
+          commit('SET_ROLES', data.roles)
+          commit('SET_NAME', data.nickname)
+          commit('SET_AVATAR', data.avatar)
           resolve()
         }).catch(error => {
           reject(error)
@@ -41,18 +45,13 @@ const user = {
       })
     },
 
-    // 获取用户信息
-    GetInfo({ commit, state }) {
+    GetInfo({ commit }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(response => {
-          const data = response.data
-          commit('SET_ROLES', data.roles)
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          resolve(response)
-        }).catch(error => {
-          reject(error)
-        })
+        const data = JSON.parse(getUser())
+        commit('SET_ROLES', data.roles)
+        commit('SET_NAME', data.nickname)
+        commit('SET_AVATAR', data.avatar)
+        resolve()
       })
     },
 
@@ -60,9 +59,9 @@ const user = {
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
+          // commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
-          removeToken()
+          removeUser()
           resolve()
         }).catch(error => {
           reject(error)
@@ -73,8 +72,9 @@ const user = {
     // 前端 登出
     FedLogOut({ commit }) {
       return new Promise(resolve => {
-        commit('SET_TOKEN', '')
-        removeToken()
+        // commit('SET_TOKEN', '')
+        commit('SET_ROLES', [])
+        removeUser()
         resolve()
       })
     }
