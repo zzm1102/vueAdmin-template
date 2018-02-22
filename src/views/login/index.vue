@@ -1,32 +1,31 @@
 <template>
   <div class="login-container">
-    <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
-      class="card-box login-form">
-      <h3 class="title">keendo-admin</h3>
-      <el-form-item prop="username">
-        <span class="svg-container svg-container_login">
-          <svg-icon icon-class="user" />
-        </span>
-        <el-input name="email" type="text" v-model="loginForm.email" autoComplete="on" placeholder="email" />
-      </el-form-item>
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password"></svg-icon>
-        </span>
-        <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
-          placeholder="password"></el-input>
-          <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-          Sign in
-        </el-button>
-      </el-form-item>
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: admin</span>
-      </div>
-    </el-form>
+    <div class="login-wrap">
+      <div class="logo"><img src="/static/images/logo.png" alt="金豆"></div>
+      <el-form autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left" label-width="0px"
+        class="card-box login-form">
+        <h3 class="title">登录</h3>
+        <el-form-item prop="username">
+          <span class="svg-container svg-container_login">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input name="email" type="text" v-model="loginForm.email" autoComplete="on" placeholder="email" />
+        </el-form-item>
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password"></svg-icon>
+          </span>
+          <el-input name="password" :type="pwdType" @keyup.enter.native="handleLogin" v-model="loginForm.password" autoComplete="on"
+            placeholder="password"></el-input>
+            <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
+            Sign in
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -92,7 +91,8 @@ export default {
 </script>
 
 <style rel="stylesheet/scss" lang="scss">
-  $bg:#2d3a4b;
+  $bg:#28a7fd;
+  $light_blue: #6cc5fb;
   $dark_gray:#889aa4;
   $light_gray:#eee;
 
@@ -112,7 +112,7 @@ export default {
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      color: $dark_gray;
       height: 47px;
     }
     .el-input {
@@ -120,10 +120,9 @@ export default {
       height: 47px;
       width: 85%;
     }
-    .tips {
-      font-size: 14px;
-      color: #fff;
-      margin-bottom: 10px;
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
     }
     .svg-container {
       padding: 6px 5px 6px 15px;
@@ -136,20 +135,24 @@ export default {
       }
     }
     .title {
-      font-size: 26px;
-      font-weight: 400;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
+      font-size: 18px;
+      color: $bg;
+      margin: 0px auto 20px;
       text-align: center;
       font-weight: bold;
     }
-    .login-form {
+    .login-wrap {
       position: absolute;
       left: 0;
       right: 0;
       width: 400px;
-      padding: 35px 35px 15px 35px;
       margin: 120px auto;
+      // text-align: center;
+    }
+    .login-form {
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 35px;
     }
     .el-form-item {
       border: 1px solid rgba(255, 255, 255, 0.1);
@@ -170,6 +173,13 @@ export default {
       position: absolute;
       right: 35px;
       bottom: 28px;
+    }
+    .el-button {
+      padding: 15px;
+      border-color: $light_blue;
+      box-shadow: 0 0 8px $bg;
+      background: linear-gradient(to right, $light_blue, $bg);
+      background: -webkit-linear-gradient(to right, $light_blue, $bg);
     }
   }
 </style>
